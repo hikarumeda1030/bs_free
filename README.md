@@ -70,6 +70,7 @@ The following JSON configuration file is located at `src/json/incr_bs_warmup_lr/
 |`bs_max`|`int` (e.g., `4096`)| The maximum batch size to be reached when increasing the batch size, if an upper limit is desired. Used when `bs_method` is `"exp_growth"`.|
 |`init_lr`|`float` (e.g., `0.1`)| The initial learning rate for the optimizer. |
 |`lr_max`|`float` (e.g., `0.2`)|The maximum learning rate to be reached when increasing the learning rate, if an upper limit is desired. Used when `lr_method` is `"exp_growth"`, `"warmup_const"`, or `"warmup_cosine"`.|
+|`lr_min`|`float` (e.g., `0.001`)| The minimum learning rate to be used in the cosine annealing schedule. Used when `lr_method` is `"cosine"` or `"warmup_cosine"`. The default value is `0`.|
 |`epochs`|`int` (e.g., `300`)|The total number of epochs for training.|
 |`incr_interval`|`int` (e.g., `30`)|Interval (in epochs) at which the batch size will increase. Also, the interval for increasing the learning rate when `lr_method` is `"exp_growth"`. Used when `bs_method` is `"exp_growth"`.|
 |`warmup_epochs`|`int` (e.g., `30`)|Number of epochs over which the learning rate warms up from `init_lr` to `lr_max`. Used when `lr_method` is `"warmup_const"` or `"warmup_cosine"`.|

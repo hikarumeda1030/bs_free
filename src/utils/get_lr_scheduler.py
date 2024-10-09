@@ -47,10 +47,8 @@ def exp_warmup_const_lr_lambda(epoch, warmup_epochs, warmup_interval, eta_init, 
         raise ValueError("Either 'eta_max' or 'growth_rate' must be provided.")
 
 
-def exp_warmup_cosine_lr_lambda(epoch, warmup_epochs, warmup_interval, epochs, eta_init, eta_min=None, eta_max=None, lr_growth_rate=None):
+def exp_warmup_cosine_lr_lambda(epoch, warmup_epochs, warmup_interval, epochs, eta_init, eta_min=0, eta_max=None, lr_growth_rate=None):
     cosine_decay = 0.5 * (1 + math.cos(math.pi * (epoch - warmup_epochs) / (epochs - warmup_epochs)))
-    if eta_min is None:
-        eta_min = 0
 
     if lr_growth_rate is not None:
         if epoch < warmup_epochs:
@@ -72,7 +70,7 @@ def exp_warmup_cosine_lr_lambda(epoch, warmup_epochs, warmup_interval, epochs, e
 
 
 def get_lr_scheduler(optimizer, config, total_steps):
-    lr_method = config["lr_method"]
+    lr_method = get_config_value(config, "lr_method")
 
     if lr_method == "constant":
         scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda epoch: 1.0)
@@ -81,7 +79,7 @@ def get_lr_scheduler(optimizer, config, total_steps):
         scheduler = optim.lr_scheduler.LambdaLR(optimizer, diminishing_lr_lambda)
         lr_step_type = "step"
     elif lr_method == "cosine":
-        scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=get_config_value(config, "epochs"))
+        scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=get_config_value(config, "epochs"), eta_min=config.get("lr_min", 0))
         lr_step_type = "epoch"
     elif lr_method == "poly":
         power = get_config_value(config, "power")
@@ -117,7 +115,7 @@ def get_lr_scheduler(optimizer, config, total_steps):
             warmup_interval=get_config_value(config, "warmup_interval"),
             epochs=get_config_value(config, "epochs"),
             eta_init=get_config_value(config, "init_lr"),
-            eta_min=config.get("lr_min"),
+            eta_min=config.get("lr_min", 0),
             eta_max=config.get("lr_max"),
             lr_growth_rate=config.get("lr_growth_rate")
         ))
