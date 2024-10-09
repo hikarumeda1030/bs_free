@@ -1,0 +1,5 @@
+/bash/
+/graphing/
+/result/*
+!/result/graph/
+!/result/README.md
