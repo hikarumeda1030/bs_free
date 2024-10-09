@@ -7,7 +7,7 @@ def save_to_csv(csv_path, results_dict):
         "train": ['Epoch', 'Steps', 'Train Loss', 'Train Accuracy', 'Learning Rate'],
         "test": ['Epoch', 'Test Loss', 'Test Accuracy'],
         "norm": ['Epoch', 'Steps', 'Full Gradient Norm'],
-        "lr_batch": ['Epoch', 'Steps', 'Learning Rate', 'Batch Size']
+        "lr_bs": ['Epoch', 'Steps', 'Learning Rate', 'Batch Size']
     }
 
     if not os.path.exists(csv_path):

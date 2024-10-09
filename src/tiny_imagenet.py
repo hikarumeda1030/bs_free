@@ -196,5 +196,5 @@ if __name__ == '__main__':
         "train": train_results,
         "test": test_results,
         "norm": norm_results,
-        "lr_batch": lr_batches
+        "lr_bs": lr_batches
     })

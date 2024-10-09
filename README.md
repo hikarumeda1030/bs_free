@@ -56,7 +56,8 @@ The following JSON configuration file is located at `src/json/incr_bs_warmup_lr/
     "warmup_epochs":30,
     "warmup_interval":3,
     "bs_growth_rate": 2.0,
-    "checkpoint_path": "checkpoint/warmup_const_lr_max0.2.pth.tar"
+    "checkpoint_path": "checkpoint/warmup_const_lr_max0.2.pth.tar",
+    "csv_path": "../result/incr_bs_warmup_lr/warmup_const_lr_max0.2/"
 }
 ```
 ### Parameters Description
@@ -77,3 +78,4 @@ The following JSON configuration file is located at `src/json/incr_bs_warmup_lr/
 |`lr_growth_rate`| `float` (e.g., `1.4`) |The factor by which the learning rate increases after each interval. Used when `lr_method` is `"exp_growth"`, `"warnup_const`", or `"warmup_cosine"`.|
 |`power`| `float` (e.g., `2.0`) |A parameter used when `lr_method` is set to `"poly"`, defining the polynomial decay rate of the learning rate.|
 |`checkpoint_path`|`str` (e.g., `"checkpoint/XXXXX.pth.tar"`)|Specifies any `"pth.tar"` file in the `checkpoint` directory. Checkpoints are saved at each epoch. If `--resume` is added to the command (`python cifar100.py json/XXXXX.json --resume`), training can be resumed from the checkpoint.|
+|`csv_path`|`str` (e.g., `"path/to/result/csv/"`)|Specifies the directory where CSV files will be saved. Four CSV files—`train.csv`, `test.csv`, `norm.csv`, and `lr_bs.csv`—will be saved in this directory.|
