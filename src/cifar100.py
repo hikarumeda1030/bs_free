@@ -16,6 +16,7 @@ def get_args():
     parser = argparse.ArgumentParser(description='PyTorch CIFAR100 Training with Schedulers')
     parser.add_argument('config_path', type=str, help='path of config file(.json)')
     parser.add_argument('--resume', action='store_true')
+    parser.add_argument('--cuda_device', type=int, default=0, help='CUDA device number (default: 0)')
     return parser.parse_args()
 
 
@@ -44,7 +45,7 @@ if __name__ == '__main__':
     testloader = torch.utils.data.DataLoader(testset, batch_size=100, shuffle=False, num_workers=2)
 
     # Device Setting
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device(f"cuda:{args.cuda_device}" if torch.cuda.is_available() else "cpu")
     model_name = get_config_value(config, "model")
     model = select_model(model_name=model_name, num_classes=100).to(device)
     print(f"model: {model_name}")
