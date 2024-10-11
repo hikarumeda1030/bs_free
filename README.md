@@ -31,14 +31,14 @@ To train a model on **CIFAR10** or **Tiny ImageNet**, use the respective scripts
 
 For **CIFAR10**:
 ```bash
-python cifar10.py XXXXX.json
-python cifar10.py XXXXX.json --resume
+python cifar10.py XXXXX.json --cuda_device 1
+python cifar10.py XXXXX.json --resume --cuda_device 1
 ```
 
 For **Tiny ImageNet**:
 ```bash
-python tiny_imagenet.py XXXXX.json
-python tiny_imagenet.py XXXXX.json --resume
+python tiny_imagenet.py XXXXX.json --cuda_device 1
+python tiny_imagenet.py XXXXX.json --resume --cuda_device 1
 ```
 
 ## Example JSON Configuration
