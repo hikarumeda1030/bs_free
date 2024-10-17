@@ -13,6 +13,9 @@ data/
 # Ignore the entire graphing directory
 /graphing/
 
+# Ignore tex directory
+/tex/
+
 # Ignore everything in result directory except graph/ and README.md
 /result/*
 !/result/graph/
