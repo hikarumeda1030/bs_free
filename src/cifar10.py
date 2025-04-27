@@ -64,6 +64,10 @@ if __name__ == '__main__':
     norm_results = []
     lr_batches = []
 
+    epsilons = [1, 0.5]
+    found_epsilons = {epsilon: False for epsilon in epsilons}
+    sfo_counts = []
+
     if args.resume:
         checkpoint_ = checkpoint.load(checkpoint_path)
         model.load_state_dict(checkpoint_.get('model_state_dict', model.state_dict()))
@@ -76,6 +80,8 @@ if __name__ == '__main__':
         norm_results = checkpoint_.get('norm_results', [])
         lr_batches = checkpoint_.get('lr_batches', [])
         steps = checkpoint_['steps']
+        found_epsilons = checkpoint_['found_epsilons']
+        sfo_counts = checkpoint_['sfo_counts']
     else:
         start_epoch = 0
         steps = 0
@@ -99,6 +105,14 @@ if __name__ == '__main__':
             lr_scheduler.step()
         bs_scheduler.step()
 
+        grad_norm = norm_result[2]
+        for epsilon in args.epsilons:
+            if not found_epsilons[epsilon] and grad_norm <= epsilon:
+                found_epsilons[epsilon] = True
+                sfo = steps * batch_size
+                sfo_count = [batch_size, epsilon, epoch + 1, steps, sfo]
+                sfo_counts.append(sfo_count)
+
         checkpoint.save({
             'epoch': epoch,
             'steps': steps,
@@ -110,6 +124,8 @@ if __name__ == '__main__':
             'test_results': test_results,
             'norm_results': norm_results,
             'lr_batches': lr_batches,
+            'found_epsilons': found_epsilons,
+            'sfo_counts': sfo_counts,
         }, checkpoint_path)
 
         print(f'Epoch: {epoch + 1}, Steps: {steps}, Train Loss: {train_results[epoch][2]:.4f}, Test Acc: {test_results[epoch][2]:.2f}%')
@@ -119,5 +135,6 @@ if __name__ == '__main__':
         "train": train_results,
         "test": test_results,
         "norm": norm_results,
-        "lr_bs": lr_batches
+        "lr_bs": lr_batches,
+        "sfo": sfo_counts
     })
