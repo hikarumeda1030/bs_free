@@ -106,7 +106,7 @@ if __name__ == '__main__':
         bs_scheduler.step()
 
         grad_norm = norm_result[2]
-        for epsilon in args.epsilons:
+        for epsilon in epsilons:
             if not found_epsilons[epsilon] and grad_norm <= epsilon:
                 found_epsilons[epsilon] = True
                 sfo = steps * batch_size
